@@ -26,7 +26,7 @@ class Card:
 class Deck:
 
     def __init__(self):
-        self.deck = []  # начинаем с пустого списка
+        self.deck = []  # починаємо с пустого списка
         for suit in suits:
             for rank in ranks:
                 self.deck.append(Card(suit, rank))
@@ -52,11 +52,11 @@ class Hand:
         self.aces = 0 # додаємо атрибут, щоб враховувати тузи
 
     def add_card(self, card):
-        # card - from deck
+
         self.cards.append(card)
         self.value += values[card.rank]
 
-        # Toose
+        # Туз
         if card.rank == "Toose":
             self.aces += 1
 
@@ -130,7 +130,7 @@ def hit_or_stand(deck, hand):
 
     while True:
         x = input(
-            'Take an additional card (hit) or stay card (stand). Enter h or s')
+            'Take an additional card (hit) or stay card (stand). Enter h or s: ')
 
         if x[0].lower() == 'h':
             hit(deck, hand)
@@ -185,11 +185,11 @@ def push(player, dealer):
 
 
 while True:
-    # Write a welcome message
+
     print('Welcome to the game of Blackjack! Try to get as close to the sum of 21 as possible without exceeding it!\n\
     The dealer draws additional cards until he receives a total of more than 17. An ace counts as 1 or 11.')
 
-    # Create and shuffle a deck of cards, give each Player two cards
+
     deck = Deck()
     deck.shuffle()
 
@@ -201,38 +201,36 @@ while True:
     dealer_hand.add_card(deck.deal())
     dealer_hand.add_card(deck.deal())
 
-    # Set the number of Player chips
-    player_chips = Chips()  # remember default value is 100
 
-    # Ask the Player for his bet
+    player_chips = Chips()
+
+
     take_bet(player_chips)
 
-    # Reveal the cards (but leave one and the Dealer's cards hidden)
+
     show_some(player_hand, dealer_hand)
 
-    while playing:  # remember this is a variable from our hit_or_stand function
+    while playing:
 
-        # Ask the Player if he wants to draw an additional card or stay with the current cards
+
         hit_or_stand(deck, player_hand)
 
-        # Reveal the cards (but leave one and the Dealer's cards hidden)
+
         show_some(player_hand, dealer_hand)
 
-        # If the Player's cards are over 21, run player_busts() and exit the loop (break)
+
         if player_hand.value > 21:
             player_busts(player_hand, dealer_hand, player_chips)
             break
 
-    # If the Player's cards do not exceed 21, go to the Dealer's cards and take additional. cards up to card total >=17
     if player_hand.value <= 21:
 
         while dealer_hand.value < 17:
             hit(deck, dealer_hand)
 
-        # Show all cards
+
         show_all(player_hand, dealer_hand)
 
-        # We perform various options for completing the game
         if dealer_hand.value > 21:
             dealer_busts(player_hand, dealer_hand, player_chips)
 
@@ -245,10 +243,8 @@ while True:
         else:
             push(player_hand, dealer_hand)
 
-    # Tell the Player the amount of his chips
     print("\nThe amount of Player's chips is ", player_chips.total)
 
-    # Ask him if he wants to play again
     new_game = input("Do you want to play again? Enter 'y' or 'n': ")
 
     if new_game[0].lower() == 'y':
